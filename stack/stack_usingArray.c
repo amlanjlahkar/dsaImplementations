@@ -77,7 +77,7 @@ int main(void) {
 
         switch(input) {
             case 1 :
-                isEmpty(&stack) ? printf("\nTRUE\n") : printf("\nFALSE\n");
+                puts((isEmpty(&stack)) ? "\nTrue\n" : "\nFALSE\n");
                 break;
             case 2 :
                 if((poppeditem = pop(&stack))) {
