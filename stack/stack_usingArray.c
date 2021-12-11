@@ -27,9 +27,6 @@
  * and an integer to indicate the index of the top element within the array
  */
 typedef struct {
-    /* integer topindex is for determining the index of the element in top of stack
-     * such that topindex + 1 = total number of items in the stack
-     */
     int topindex;
     int members[STACKSIZE];
 } stackrec;
