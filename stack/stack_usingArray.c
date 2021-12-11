@@ -1,4 +1,4 @@
-/* implementing a simple stack of FILO mechanism containg integers,
+/* implementing a simple stack of FILO mechanism containing integers,
  * that is, the first integer(if using array then the element at index 0) to enter the stack
  * will be the last integer to be removed from the stack.
  *
@@ -77,10 +77,10 @@ int main(void) {
 
         switch(input) {
             case 1 :
-                puts((isEmpty(&stack)) ? "\nTrue\n" : "\nFALSE\n");
+                puts((isEmpty(&stack)) ? "\nTrue" : "\nFALSE");
                 break;
             case 2 :
-                if((poppeditem = pop(&stack))) {
+                if ((poppeditem = pop(&stack))) {
                     topitem = stack.members[stack.topindex];
                     if (stack.topindex != -1)
                         printf("\nThe item \'%d\' at the top of the stack has been removed.\n"
@@ -114,7 +114,7 @@ int main(void) {
                     puts("\nThe stack is empty!");
                 else {
                     puts("\nThe item(s) currently in the stack are: \n");
-                    for(int i = stack.topindex; i >= 0; i--) {
+                    for (int i = stack.topindex; i >= 0; i--) {
                         if (i == stack.topindex)
                             printf("%7d\t<--- top of the stack\n", stack.members[i]);
                         else if (i == 0)
@@ -159,7 +159,7 @@ int push(stackrec *ptr, int topelement) {
 
 // warn() ensures succefull reading of integers from stdin
 void warn(int *a) {
-    if(scanf(" %d", a) != 1) {
+    if (scanf(" %d", a) != 1) {
         puts(ANSI_COLOR_RED "\nError reading input\n" ANSI_COLOR_RESET "(please re-run the compiled program)\n");
         exit(1);
     }
