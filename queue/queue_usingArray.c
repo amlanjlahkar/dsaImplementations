@@ -19,7 +19,7 @@ typedef struct {
     int members[];
 } queuerec;
 // frontindex > rearindex when empty
-queuerec queue = { .frontindex = 0, .rearindex = -1 };
+queuerec q = { .frontindex = 0, .rearindex = -1 };
 
 // queue functions
 int isEmpty(queuerec *);
@@ -55,48 +55,48 @@ int main(void) {
 
         switch(input) {
             case 1 :
-                puts((isEmpty(&queue)) ? "\nTRUE" : "\nFALSE");
+                puts((isEmpty(&q)) ? "\nTRUE" : "\nFALSE");
                 break;
             case 2 :
-                if (queue.rearindex == (QUEUESIZE - 1)) {
+                if (q.rearindex == (QUEUESIZE - 1)) {
                     puts(ANSI_COLOR_RED "\nqueue overflow!" ANSI_COLOR_RESET);
                     break;
                 }
                 printf("\nEnter an item(integer): ");
                 warn(&enqueued);
-                enQueue(&queue, enqueued);
-                if (queue.rearindex < (QUEUESIZE - 1))
+                enQueue(&q, enqueued);
+                if (q.rearindex < (QUEUESIZE - 1))
                     printf("\nA new item has been inserted at the rear of the queue.\n"
-                    "it now contains %d item(s).\n", (queue.rearindex - queue.frontindex)+1);
-                else if (queue.rearindex < QUEUESIZE)
+                    "it now contains %d item(s).\n", (q.rearindex - q.frontindex)+1);
+                else if (q.rearindex < QUEUESIZE)
                     printf("\nA new item has been inserted at the rear of the queue.\n"
                     "The queue is now full.\n");
                 break;
             case 3 :
-                if ((dequeued = deQueue(&queue))) {
+                if ((dequeued = deQueue(&q))) {
                     // set the previous element value to 0 after shifting frontindex
-                    queue.members[(queue.frontindex)-1] = 0;
-                    if (queue.frontindex == (queue.rearindex)+1)
+                    q.members[(q.frontindex)-1] = 0;
+                    if (q.frontindex == (q.rearindex)+1)
                         printf("\nThe last item \'%d\' of queue has been removed.\n"
                         "The queue is now empty.\n", dequeued);
                     else
                         printf("\nThe item \'%d\' from the front of the queue has been removed.\n"
-                        "it now contains %d item(s).\n", dequeued, (queue.rearindex - queue.frontindex)+1);
+                        "it now contains %d item(s).\n", dequeued, (q.rearindex - q.frontindex)+1);
                     break;
                 }
                 break;
             case 4 :
-                if (isEmpty(&queue))
+                if (isEmpty(&q))
                     puts("\nThe queue is empty!");
                 else {
                     puts("\nThe item(s) current in the queue are:\n");
-                        for (int i = 0; i <= queue.rearindex; i++) {
-                            if (i == queue.frontindex)
-                                printf("%7d\t<--- front\n", queue.members[i]);
-                            else if (i == queue.rearindex)
-                                printf("%7d\t<--- rear\n", queue.members[i]);
+                        for (int i = 0; i <= q.rearindex; i++) {
+                            if (i == q.frontindex)
+                                printf("%7d\t<--- front\n", q.members[i]);
+                            else if (i == q.rearindex)
+                                printf("%7d\t<--- rear\n", q.members[i]);
                             else
-                                printf("%5d\n", queue.members[i]);
+                                printf("%5d\n", q.members[i]);
                         }
                 }
                 break;
@@ -120,7 +120,7 @@ int enQueue(queuerec *ptr, int rearelement) {
 }
 
 int deQueue(queuerec *ptr) {
-    if(isEmpty(&queue)) {
+    if(isEmpty(&q)) {
         puts(ANSI_COLOR_RED "\nAttempting to access item from an empty queue"
         " will cause underflow!" ANSI_COLOR_RESET);
         return 0;
