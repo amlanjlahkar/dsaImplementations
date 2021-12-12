@@ -74,8 +74,14 @@ int main(void) {
                 break;
             case 3 :
                 if ((dequeued = deQueue(&queue))) {
-                    printf("\nThe item \'%d\' from the front of the queue has been removed\n"
-                    "it now contains %d item(s).\n", dequeued, (queue.rearindex - queue.frontindex)+1);
+                    // set the previous element value to 0 after shifting frontindex
+                    queue.members[(queue.frontindex)-1] = 0;
+                    if (queue.frontindex == (queue.rearindex)+1)
+                        printf("\nThe last item \'%d\' of queue has been removed.\n"
+                        "The queue is now empty.\n", dequeued);
+                    else
+                        printf("\nThe item \'%d\' from the front of the queue has been removed.\n"
+                        "it now contains %d item(s).\n", dequeued, (queue.rearindex - queue.frontindex)+1);
                     break;
                 }
                 break;
@@ -98,14 +104,15 @@ int main(void) {
     }
 }
 
-/* function definitions */
+// function definitions
 int isEmpty(queuerec *ptr) {
     return((ptr->frontindex > ptr->rearindex) ? 1 : 0);
 }
 
 int enQueue(queuerec *ptr, int rearelement) {
     if (ptr->rearindex == (QUEUESIZE - 1)) {
-        puts(ANSI_COLOR_RED "\nqueue overflow!" ANSI_COLOR_RESET);
+        puts(ANSI_COLOR_RED "\nAttempting to add item to an empty queue"
+        " will cause overflow!" ANSI_COLOR_RESET);
         return 0;
     }
     ptr->members[++(ptr->rearindex)] = rearelement;
@@ -114,7 +121,8 @@ int enQueue(queuerec *ptr, int rearelement) {
 
 int deQueue(queuerec *ptr) {
     if(isEmpty(&queue)) {
-        puts(ANSI_COLOR_RED "\nqueue underflow" ANSI_COLOR_RESET);
+        puts(ANSI_COLOR_RED "\nAttempting to access item from an empty queue"
+        " will cause underflow!" ANSI_COLOR_RESET);
         return 0;
     }
     return(ptr->members[ptr->frontindex++]);
