@@ -13,10 +13,6 @@
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-/* for better understanding of code
- * when returning integers(0 or 1) from user-defined functions
- * for boolean testing
- */
 #define TRUE  1
 #define FALSE 0
 
@@ -40,8 +36,8 @@ stackrec stack = { .topindex = -1 };
 
 // declaring functions for operations to be performed on the stack
 int isEmpty(stackrec *);
-int pop(stackrec *);
 int push(stackrec *, int);
+int pop(stackrec *);
 
 // miscellaneous function
 void warn(int *);
@@ -55,10 +51,10 @@ int main(void) {
     while(1) {
         puts("\n--------------------------------------------------");
         puts("\n1) isEmpty (indicates either TRUE or FALSE)\n"
-        "2) pop (remove an item from the top of the stack)\n"
-        "3) push (insert a new item on top of the stack)\n"
+        "2) push (insert a new item on top of the stack)\n"
+        "3) pop (remove an item from the top of the stack)\n"
         "4) tos (print out the item on top of the stack)\n"
-        "5) stackInfo (print out all the items currently in the stack)\n"
+        "5) peek (get an overview of current items in the stack)\n"
         "6) exit\n");
         puts("--------------------------------------------------");
 
@@ -74,9 +70,22 @@ int main(void) {
 
         switch(input) {
             case 1 :
-                puts((isEmpty(&stack)) ? "\nTrue" : "\nFALSE");
+                puts((isEmpty(&stack)) ? "\nTRUE" : "\nFALSE");
                 break;
             case 2 :
+                if (stack.topindex == (STACKSIZE - 1)) {
+                    puts(ANSI_COLOR_RED "\nStack is already full"
+                    " and attempting to add more items to it will cause overflow." ANSI_COLOR_RESET);
+                    break;
+                }
+                printf("\nEnter an item(number): ");
+                warn(&pusheditem);
+                topitem = push(&stack, pusheditem);
+                if (!isEmpty(&stack) && stack.topindex < (STACKSIZE - 1))
+                    printf("\nA new item has been inserted into the stack.\n"
+                    "it now contains %d item(s).\n", (stack.topindex)+1);
+                break;
+            case 3 :
                 if ((poppeditem = pop(&stack))) {
                     topitem = stack.members[stack.topindex];
                     if (stack.topindex != -1)
@@ -86,19 +95,6 @@ int main(void) {
                         printf("\nThe last item \'%d\' of the stack has been removed.\n"
                         "The stack is now empty!\n", poppeditem);
                 }
-                break;
-            case 3 :
-                if (stack.topindex == (STACKSIZE - 1)) {
-                    puts(ANSI_COLOR_RED "\nStack is already full"
-                    " and attempting to add more item to it will cause overflow." ANSI_COLOR_RESET);
-                    break;
-                }
-                printf("\nEnter an item(number): ");
-                warn(&pusheditem);
-                topitem = push(&stack, pusheditem);
-                if (!isEmpty(&stack) && stack.topindex < (STACKSIZE - 1))
-                    printf("\nA new item has been inserted into the stack.\n"
-                    "it now contains %d item(s).\n", (stack.topindex)+1);
                 break;
             case 4 :
                 if (isEmpty(&stack))
@@ -128,37 +124,39 @@ int main(void) {
 // function/operation definitions
 // isEmpty() is used for determining the state of the stack
 int isEmpty(stackrec *ptr) {
-    if (ptr -> topindex == -1)
+    if (ptr->topindex == -1)
         return(TRUE);
     else
         return(FALSE);
 }
 
+// push() is used for inserting item in the stack
+int push(stackrec *ptr, int topelement) {
+    if (ptr->topindex == STACKSIZE - 1) {
+        puts(ANSI_COLOR_RED "\nStack is already full"
+        " and attempting to add more items to it will cause overflow." ANSI_COLOR_RESET);
+        return(FALSE);
+    }
+    ptr->topindex += 1;
+    ptr->members[ptr->topindex] = topelement;
+    return(topelement);
+}
+
 // pop() is used for removing item from the stack
 int pop(stackrec *ptr) {
     if (isEmpty(ptr)) {
-        puts(ANSI_COLOR_RED "\nStack is already empty and attempting to access item from it will cause underflow." ANSI_COLOR_RESET);
+        puts(ANSI_COLOR_RED "\nStack is already empty"
+        " and attempting to access item from it will cause underflow." ANSI_COLOR_RESET);
         return(FALSE);
     }
-    return(ptr -> members[ptr -> topindex--]);
-}
-
-// push() is used for inserting item in the stack
-int push(stackrec *ptr, int topelement) {
-    if (ptr -> topindex == STACKSIZE - 1) {
-        puts(ANSI_COLOR_RED "\nStack is already full and attempting to add more item to it will cause overflow." ANSI_COLOR_RESET);
-        return(FALSE);
-    }
-    ptr -> topindex += 1;
-    ptr -> members[ptr -> topindex] = topelement;
-    return(topelement);
+    return(ptr->members[ptr->topindex--]);
 }
 
 // warn() ensures succefull reading of integers from stdin
 void warn(int *a) {
     if (scanf(" %d", a) != 1) {
-        puts(ANSI_COLOR_RED "\nError reading input\n" ANSI_COLOR_RESET "(please re-run the compiled program)\n");
+        puts(ANSI_COLOR_RED "\nError reading input\n" ANSI_COLOR_RESET
+        "(please re-run the compiled program)\n");
         exit(1);
     }
 }
-
