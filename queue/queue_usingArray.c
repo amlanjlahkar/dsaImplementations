@@ -65,12 +65,12 @@ int main(void) {
                 printf("\nEnter an item(integer): ");
                 warn(&enqueued);
                 enQueue(&q, enqueued);
-                if (q.rearindex < (QUEUESIZE - 1))
-                    printf("\nA new item has been inserted at the rear of the queue.\n"
-                    "it now contains %d item(s).\n", (q.rearindex - q.frontindex)+1);
-                else if (q.rearindex < QUEUESIZE)
+                if (q.rearindex == (QUEUESIZE - 1))
                     printf("\nA new item has been inserted at the rear of the queue.\n"
                     "The queue is now full.\n");
+                else
+                    printf("\nA new item has been inserted at the rear of the queue.\n"
+                    "it now contains %d item(s).\n", (q.rearindex - q.frontindex)+1);
                 break;
             case 3 :
                 if ((dequeued = deQueue(&q))) {
