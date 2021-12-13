@@ -59,7 +59,7 @@ int main(void) {
                 break;
             case 2 :
                 if (q.rearindex == (QUEUESIZE - 1)) {
-                    puts(ANSI_COLOR_RED "\nqueue overflow!" ANSI_COLOR_RESET);
+                    puts(ANSI_COLOR_RED "\nQueue is already full!" ANSI_COLOR_RESET);
                     break;
                 }
                 printf("\nEnter an item(integer): ");
@@ -111,7 +111,7 @@ int isEmpty(queuerec *ptr) {
 
 int enQueue(queuerec *ptr, int rearelement) {
     if (ptr->rearindex == (QUEUESIZE - 1)) {
-        puts(ANSI_COLOR_RED "\nAttempting to add item to an empty queue"
+        puts(ANSI_COLOR_RED "\nAttempting to add item to a non-empty queue"
         " will cause overflow!" ANSI_COLOR_RESET);
         return 0;
     }
