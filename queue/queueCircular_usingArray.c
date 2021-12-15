@@ -123,9 +123,11 @@ int isFull(queuerec *ptr) {
 }
 
 void enQueue(queuerec *ptr, int rearelement) {
-    if (isFull(ptr))
+    if (isFull(ptr)) {
         puts(ANSI_COLOR_RED "\nAttempting to add item to a non-empty queue"
         " will cause overflow!" ANSI_COLOR_RESET);
+        return;
+    }
     else if (isEmpty(ptr))
         emptindi = &FALSE;
     if (ptr->frontindex == -1)
