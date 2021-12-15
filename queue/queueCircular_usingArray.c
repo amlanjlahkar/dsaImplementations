@@ -19,18 +19,23 @@ typedef struct {
     int members[];
 } queuerec;
 queuerec q = { .frontindex = -1, .rearindex = -1 };
+// variables to test for empty queue
+int TRUE = 1, FALSE = 0, *emptindi;
 
 // queue functions
 int isEmpty(queuerec *);
 int isFull(queuerec *);
 void enQueue(queuerec *, int);
 int deQueue(queuerec *);
-int qTotal(queuerec *);
+int queueTotal(queuerec *);
+
 // miscellaneous
 void warn(int *);
 
 int main(void) {
     int item = 0, input = 0, enqueued = 0, dequeued = 0;
+    emptindi = &TRUE;
+
     printf("\nThe queue can contain atmost %d items and is currently empty.\n"
     "Below are some operations available to perform on it.\n", QUEUESIZE);
 
@@ -66,13 +71,22 @@ int main(void) {
                 printf("\nEnter an item(integer): ");
                 warn(&enqueued);
                 enQueue(&q, enqueued);
-                printf("\nA new item has been inserted at the rear of the queue.\n"
-                "it now contains %d item(s).\n", qTotal(&q));
+                if (isFull(&q))
+                    printf("\nThe last remaining place in the queue has been filled up"
+                    " with the new item \'%d\'.\nThe queue is now full.\n", enqueued);
+                else
+                    printf("\nA new item \'%d\' has been inserted at the rear of the queue.\n"
+                    "It now contains %d item(s).\n", enqueued, queueTotal(&q));
                 break;
             case 3 :
                 if ((dequeued = deQueue(&q))) {
-                    printf("\nThe item \'%d\' from the front of the queue has been removed.\n"
-                    "it now contains %d item(s).\n", dequeued, qTotal(&q));
+                    if (isEmpty(&q)) {
+                        printf("\nThe last item \'%d\' of the queue has been removed.\n"
+                        "The queue is now empty!\n", dequeued);
+                    }
+                    else
+                        printf("\nThe item \'%d\' from the front of the queue has been removed.\n"
+                        "It now contains %d item(s).\n", dequeued, queueTotal(&q));
                     break;
                 }
                 break;
@@ -97,12 +111,7 @@ int main(void) {
 
 // function definitions
 int isEmpty(queuerec *ptr) {
-    /* if the queue has to be empty,
-     * then rear will always have to be ahead of front.
-     * when frontindex == rearindex, it actually means
-     * there is only a single item left in the queue,
-     */
-    return((ptr->frontindex == ptr->rearindex) ? 1 : 0);
+    return((ptr->frontindex == -1 || *emptindi == TRUE) ? 1 : 0);
 }
 
 int isFull(queuerec *ptr) {
@@ -113,22 +122,13 @@ int isFull(queuerec *ptr) {
     return((index_after_rear == ptr->frontindex) ? 1 : 0);
 }
 
-int qTotal(queuerec *ptr) {
-    if (ptr->rearindex < ptr->frontindex) {
-        // the number of "empty cells" in the queue
-        int empty_total = (ptr->frontindex - ptr->rearindex) - 1;
-        return (QUEUESIZE - empty_total);
-    }
-    else
-        return ((ptr->rearindex - ptr->frontindex) + 1);
-}
-
 void enQueue(queuerec *ptr, int rearelement) {
-    if (isFull(ptr)) {
+    if (isFull(ptr))
         puts(ANSI_COLOR_RED "\nAttempting to add item to a non-empty queue"
         " will cause overflow!" ANSI_COLOR_RESET);
-    }
-    else if (ptr->frontindex == -1)
+    else if (isEmpty(ptr))
+        emptindi = &FALSE;
+    if (ptr->frontindex == -1)
         ptr->frontindex = 0;
     ptr->rearindex = (ptr->rearindex + 1) % QUEUESIZE;
     ptr->members[ptr->rearindex] = rearelement;
@@ -141,8 +141,28 @@ int deQueue(queuerec *ptr) {
         return 0;
     }
     int prev_item = ptr->members[ptr->frontindex];
-    ptr->frontindex = (ptr->frontindex + 1) % QUEUESIZE;
+    if (ptr->frontindex != -1 && ptr->rearindex == ptr->frontindex)
+        // perform when dequeuing the last item
+        emptindi = &TRUE, ptr->frontindex = ptr->rearindex = -1;
+    else
+        ptr->frontindex = (ptr->frontindex + 1) % QUEUESIZE;
     return prev_item;
+}
+
+int queueTotal(queuerec *ptr) {
+    if (isEmpty(ptr)) {
+        int zero = 0;
+        return zero;
+    }
+    else if (isFull(ptr))
+        return QUEUESIZE;
+    if (ptr->rearindex < ptr->frontindex) {
+        // the number of "empty cells" in the queue
+        int empty_total = (ptr->frontindex - ptr->rearindex) - 1;
+        return (QUEUESIZE - empty_total);
+    }
+    else
+        return ((ptr->rearindex - ptr->frontindex) + 1);
 }
 
 // warn() ensures successful reading of single integer from stdin
