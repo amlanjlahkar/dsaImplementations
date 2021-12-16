@@ -16,13 +16,15 @@
 #define QUEUESIZE 5
 typedef struct {
     int frontindex, rearindex;
-    int members[];
+    int members[QUEUESIZE];
 } queuerec;
+// initializing both front and rear index of the queue from -1
 queuerec q = { .frontindex = -1, .rearindex = -1 };
 // variables to test for empty queue
 int TRUE = 1, FALSE = 0, *emptindi;
 
-// queue functions
+
+// queue function prototypes
 int isEmpty(queuerec *);
 int isFull(queuerec *);
 void enQueue(queuerec *, int);
@@ -32,8 +34,10 @@ int queueTotal(queuerec *);
 // miscellaneous
 void warn(int *);
 
+
 int main(void) {
     int item = 0, input = 0, enqueued = 0, dequeued = 0;
+    // point emptindi to true at the beginning
     emptindi = &TRUE;
 
     printf("\nThe queue can contain atmost %d items and is currently empty.\n"
@@ -60,9 +64,11 @@ int main(void) {
         }
 
         switch(input) {
+            // is empty
             case 1 :
                 puts((isEmpty(&q)) ? "\nTRUE" : "\nFALSE");
                 break;
+            // enqueue
             case 2 :
                 if (isFull(&q)) {
                     puts(ANSI_COLOR_RED "\nQueue is already full!" ANSI_COLOR_RESET);
@@ -72,12 +78,13 @@ int main(void) {
                 warn(&enqueued);
                 enQueue(&q, enqueued);
                 if (isFull(&q))
-                    printf("\nThe last remaining place in the queue has been filled up"
+                    printf("\nThe last remaining place in the queue\nhas been filled up"
                     " with the new item \'%d\'.\nThe queue is now full.\n", enqueued);
                 else
                     printf("\nA new item \'%d\' has been inserted at the rear of the queue.\n"
                     "It now contains %d item(s).\n", enqueued, queueTotal(&q));
                 break;
+            // dequeue
             case 3 :
                 if ((dequeued = deQueue(&q))) {
                     if (isEmpty(&q)) {
@@ -90,11 +97,12 @@ int main(void) {
                     break;
                 }
                 break;
+            // peek
             case 4 :
                 if (isEmpty(&q))
                     puts("\nThe queue is empty!");
                 else {
-                    puts("\nThe item(s) current in the queue are:\n");
+                    puts("\nThe item(s) currently in the queue are:\n");
                         for (int i = 0; i < QUEUESIZE; i++) {
                             if (i == q.frontindex)
                                 printf("%7d\t<--- front\n", q.members[i]);
@@ -109,6 +117,7 @@ int main(void) {
     }
 }
 
+
 // function definitions
 int isEmpty(queuerec *ptr) {
     return((ptr->frontindex == -1 || *emptindi == TRUE) ? 1 : 0);
@@ -122,6 +131,7 @@ int isFull(queuerec *ptr) {
     return((index_after_rear == ptr->frontindex) ? 1 : 0);
 }
 
+// shift rearindex to one index ahead when "inserting" item
 void enQueue(queuerec *ptr, int rearelement) {
     if (isFull(ptr)) {
         puts(ANSI_COLOR_RED "\nAttempting to add item to a non-empty queue"
@@ -136,21 +146,26 @@ void enQueue(queuerec *ptr, int rearelement) {
     ptr->members[ptr->rearindex] = rearelement;
 }
 
+// shift frontindex to one index ahead when "removing" item
 int deQueue(queuerec *ptr) {
     if(isEmpty(ptr)) {
         puts(ANSI_COLOR_RED "\nAttempting to access item from an empty queue"
         " will cause underflow!" ANSI_COLOR_RESET);
         return 0;
     }
+    // store the current element at frontinex in a temporary var for returning
     int prev_item = ptr->members[ptr->frontindex];
     if (ptr->frontindex != -1 && ptr->rearindex == ptr->frontindex)
-        // perform when dequeuing the last item
+        /* point emptindi to true and
+         * reset front and rear index to -1 when dequeuing the last item
+         */
         emptindi = &TRUE, ptr->frontindex = ptr->rearindex = -1;
     else
         ptr->frontindex = (ptr->frontindex + 1) % QUEUESIZE;
     return prev_item;
 }
 
+// return the number of total items in the queue
 int queueTotal(queuerec *ptr) {
     if (isEmpty(ptr)) {
         int zero = 0;
