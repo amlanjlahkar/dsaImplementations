@@ -28,14 +28,14 @@ stackrec stack = { .topindex = -1 };
 
 // stack functions
 int isEmpty(stackrec *);
-int push(stackrec *, int);
+void push(stackrec *, int);
 int pop(stackrec *);
 
 // miscellaneous
 void warn(int *);
 
 int main(void) {
-    int input = 0, topitem = 0, pusheditem = 0, poppeditem = 0;
+    int input = 0, topitem = 0, poppeditem = 0;
     printf("\nThe stack can contain atmost %d items and is currently empty.\n"
     "Below are some operations available to perform on it.\n", STACKSIZE);
 
@@ -71,8 +71,8 @@ int main(void) {
                     break;
                 }
                 printf("\nEnter an item(number): ");
-                warn(&pusheditem);
-                topitem = push(&stack, pusheditem);
+                warn(&topitem);
+                push(&stack, topitem);
                 if (stack.topindex < (STACKSIZE - 1))
                     printf("\nA new item has been inserted into the stack.\n"
                     "it now contains %d item(s).\n", (stack.topindex)+1);
@@ -119,21 +119,20 @@ int main(void) {
 // function definitions
 int isEmpty(stackrec *ptr) {
     if (ptr->topindex == -1)
-        return(TRUE);
+        return TRUE;
     else
-        return(FALSE);
+        return FALSE;
 }
 
 // push() is used for inserting item in the stack
-int push(stackrec *ptr, int topelement) {
+void push(stackrec *ptr, int topelement) {
     if (ptr->topindex == (STACKSIZE - 1)) {
         puts(ANSI_COLOR_RED "\nStack is already full"
         " and attempting to add more items to it will cause overflow." ANSI_COLOR_RESET);
-        return(FALSE);
+        return;
     }
     ptr->topindex += 1;
     ptr->members[ptr->topindex] = topelement;
-    return(topelement);
 }
 
 // pop() is used for removing item from the stack
@@ -141,7 +140,7 @@ int pop(stackrec *ptr) {
     if (isEmpty(ptr)) {
         puts(ANSI_COLOR_RED "\nStack is already empty"
         " and attempting to access item from it will cause underflow." ANSI_COLOR_RESET);
-        return(FALSE);
+        return FALSE;
     }
     return(ptr->members[ptr->topindex--]);
 }
