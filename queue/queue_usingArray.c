@@ -24,7 +24,7 @@ queuerec q = { .frontindex = 0, .rearindex = -1 };
 // queue functions
 int isEmpty(queuerec *);
 int deQueue(queuerec *);
-int enQueue(queuerec *, int);
+void enQueue(queuerec *, int);
 // miscellaneous
 void warn(int *);
 
@@ -109,14 +109,13 @@ int isEmpty(queuerec *ptr) {
     return((ptr->frontindex > ptr->rearindex) ? 1 : 0);
 }
 
-int enQueue(queuerec *ptr, int rearelement) {
+void enQueue(queuerec *ptr, int rearelement) {
     if (ptr->rearindex == (QUEUESIZE - 1)) {
         puts(ANSI_COLOR_RED "\nAttempting to add item to a non-empty queue"
         " will cause overflow!" ANSI_COLOR_RESET);
-        return 0;
+        return;
     }
     ptr->members[++(ptr->rearindex)] = rearelement;
-    return(rearelement);
 }
 
 int deQueue(queuerec *ptr) {
