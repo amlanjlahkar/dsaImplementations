@@ -11,10 +11,10 @@ typedef struct node_info {
 Node *head = NULL;
 
 void insert_front(int node_data) {
-    Node *empty_node = (Node*) malloc(sizeof(Node));
-    empty_node->data = node_data;
-    empty_node->next = head;
-    head = empty_node;
+    Node *new_node = (Node*) malloc(sizeof(Node));
+    new_node->data = node_data;
+    new_node->next = head;
+    head = new_node;
 }
 
 void free_front() {

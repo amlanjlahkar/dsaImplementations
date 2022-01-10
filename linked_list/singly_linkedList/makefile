@@ -6,7 +6,7 @@ OBJ=list_operations.o main.o
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-singlyLinkedList: $(OBJ)
+output: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
