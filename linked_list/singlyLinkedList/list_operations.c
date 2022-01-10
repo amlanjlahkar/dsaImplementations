@@ -11,10 +11,10 @@ typedef struct node_info {
 Node *head = NULL;
 
 void insert_front(int node_data) {
-    Node *ptr = (Node*) malloc(sizeof(Node));
-    ptr->data = node_data;
-    ptr->next = head;
-    head = ptr;
+    Node *empty_node = (Node*) malloc(sizeof(Node));
+    empty_node->data = node_data;
+    empty_node->next = head;
+    head = empty_node;
 }
 
 void free_front() {
@@ -22,10 +22,9 @@ void free_front() {
         puts("\nlist is empty.");
         return;
     }
-    Node *ptr;
-    ptr = head;
-    head = ptr->next;
-    free(ptr);
+    Node *getnode = head;
+    head = getnode->next;
+    free(getnode);
 }
 
 void printList() {
@@ -33,12 +32,12 @@ void printList() {
         puts("\nlist is empty.");
         return;
     }
-    Node *ptr = head;
+    Node *getnode = head;
     printf("\n");
-    while(ptr->next != NULL) {
-        printf("[ %d ] ---> ", ptr->data);
-        ptr = ptr->next;
+    while(getnode->next != NULL) {
+        printf("[ %d ] ---> ", getnode->data);
+        getnode = getnode->next;
     }
-    if (ptr->next == NULL)
-        printf("[ %d ]\n", ptr->data);
+    if (getnode->next == NULL)
+        printf("[ %d ]\n", getnode->data);
 }
