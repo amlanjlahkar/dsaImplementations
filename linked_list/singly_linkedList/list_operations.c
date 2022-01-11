@@ -1,6 +1,3 @@
-/* TODO
-add other operations: insert_after */
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,6 +6,16 @@ typedef struct node_info {
     struct node_info *next;
 } Node;
 Node *head = NULL;
+
+int is_empty();
+void insert_front(int node_data);
+void insert_after(int prev_node_data, int new_node_data);
+void insert_rear(int node_data);
+int free_front();
+int free_node(int prev_node_data);
+int free_rear();
+int search(int node_data);
+void printList();
 
 int is_empty() {
     return((head == NULL) ? 1 : 0);
@@ -20,6 +27,22 @@ void insert_front(int node_data) {
     new_node->data = node_data;
     new_node->next = head;
     head = new_node;
+}
+
+void insert_after(int prev_node_data, int new_node_data) {
+    if (!search(prev_node_data)) {
+        printf("\ninvalid insertion.\n(node containing \'%d\' doesn't exist in the list)\n", prev_node_data);
+        return;
+    }
+    Node *getnode = head;
+    while(getnode->next != NULL && getnode->data != prev_node_data) {
+        getnode = getnode->next;
+    }
+    Node *new_node = (Node*) malloc(sizeof(Node));
+    new_node->data = new_node_data;
+    new_node->next = getnode->next;
+    getnode->next = new_node;
+    printf("new node containg \'%d\' has been inserted in the list.\n", new_node_data);
 }
 
 void insert_rear(int node_data) {
@@ -48,12 +71,38 @@ int free_front() {
     return 0;
 }
 
+int free_node(int prev_node_data) {
+    if (!is_empty() && head->next != NULL) {
+        if (search(prev_node_data)) {
+            Node *getnode = head;
+            while(getnode->next != NULL && getnode->data != prev_node_data)
+                getnode = getnode->next;
+            if (getnode->next == NULL) {
+                printf("\ninvalid deletion.\n(last node containing \'%d\' points to null)\n", prev_node_data);
+                return 0;
+            } else {
+                Node *target = getnode->next;
+                int freed_data = target->data;
+                getnode->next = target->next;
+                free(target);
+                printf("node containing \'%d\' has been freed.\n", freed_data);
+                return 1;
+            }
+        } else
+            printf("\ninvalid deletion.\n(the node containing \'%d\' is not in the list)\n", prev_node_data);
+    } else if (head->next == NULL) {
+        puts("\nthere's only one node in the list!");
+        return 0;
+    }
+    return 0;
+}
+
 int free_rear() {
     if (!is_empty()) {
         if (head->next == NULL)
             return(free_front());
         Node *seek = head;
-        // traverse until the node before last node is reached
+        // traverse until "the node before last node" is reached
         while((seek->next)->next != NULL)
             seek = seek->next;
         // target the last node

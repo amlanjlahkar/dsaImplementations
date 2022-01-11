@@ -9,56 +9,61 @@ int main() {
     int input = 0; int data;
     while(1) {
         puts("\n1) insert node at the front"
-             "\n2) insert node at the end"
-             "\n3) free node from the front"
-             "\n4) free node from the end"
-             "\n5) search for node info in the list"
-             "\n6) print the list"
-             "\n7) exit\n");
+             "\n2) insert node after another exisiting node"
+             "\n3) insert node at the end"
+             "\n4) free node at the front"
+             "\n5) free a specific node"
+             "\n6) free node at the end"
+             "\n7) search for node data in the list"
+             "\n8) print the list"
+             "\n9) exit\n");
 
-        printf("Enter your input: ");
+        printf("enter your input: ");
         warn(&input);
-        if (input < 1 || input > 7) {
+        if (input < 1 || input > 9) {
             puts("\nPlease provide a valid input.");
             continue;
-        } else if (input == 7) {
+        } else if (input == 9) {
             puts("\nterminated.\n");
             break;
         }
 
         switch(input) {
             case 1 : {
-                printf("Enter an integer: ");
+                printf("enter data(integer) to be stored in the new node: ");
                 warn(&data);
                 insert_front(data);
-                puts("node has been inserted at the front of the list.");
+                printf("new node containing \'%d\' has been inserted at the front of the list.\n", data);
                 break;
             }
             case 2 : {
-                printf("Enter an integer: ");
-                warn(&data);
-                insert_rear(data);
-                puts("node has been inserted at the end of the list.");
+                if(is_empty()) {
+                    puts("\nlist is empty.");
+                    break;
+                }
+                int data_prev = 0, data_new = 0;
+                printf("enter the data(integer) of the preceding node: ");
+                warn(&data_prev);
+                printf("enter data(integer) to be stored in the new node: ");
+                warn(&data_new);
+                insert_after(data_prev, data_new);
                 break;
             }
             case 3 : {
-                int data = 0;
-                if (is_empty()) {
-                    puts("\nlist is empty.");
-                    break;
-                }
-                data = free_front();
-                printf("node containing \'%d\' has been removed from the front of the list.\n", data);
+                printf("enter data(integer) to be stored in the new node: ");
+                warn(&data);
+                insert_rear(data);
+                printf("new node containg \'%d\' has been inserted at the end of the list.", data);
                 break;
             }
             case 4 : {
-                int data = 0;
                 if (is_empty()) {
                     puts("\nlist is empty.");
                     break;
                 }
-                data = free_rear();
-                printf("node containing \'%d\' has been removed from the end of the list.\n", data);
+                int data = 0;
+                data = free_front();
+                printf("node containing \'%d\' has been freed from the front of the list.\n", data);
                 break;
             }
             case 5 : {
@@ -66,20 +71,41 @@ int main() {
                     puts("\nlist is empty.");
                     break;
                 }
-                printf("Enter integer to search for in the list: ");
+                int data_prev = 0;
+                printf("enter the data(integer) of the preceding node: ");
+                warn(&data_prev);
+                free_node(data_prev);
+                break;
+            }
+            case 6 : {
+                if (is_empty()) {
+                    puts("\nlist is empty.");
+                    break;
+                }
+                int data = 0;
+                data = free_rear();
+                printf("node containing \'%d\' has been freed from the end of the list.\n", data);
+                break;
+            }
+            case 7 : {
+                if (is_empty()) {
+                    puts("\nlist is empty.");
+                    break;
+                }
+                printf("enter the data(integer) of a node to search for in the list: ");
                 warn(&data);
                 int step = 0;
                 if ((step = search(data))) {
                     if (step == 1)
-                        printf("The integer \'%d\' is available at the very front of the list.\n", data);
+                        printf("the node containing \'%d\' is available at the very front of the list.\n", data);
                     else
-                        printf("The integer \'%d\' is available at the distance of %d node(s) from head.\n", data, step);
+                        printf("the node containing \'%d\' is available at the distance of %d node(s) from head.\n", data, step);
                 }
                 else
-                    printf("The integer \'%d\' is not in the list.\n", data);
+                    printf("the node containing \'%d\' doesn't exist in the list.\n", data);
                 break;
             }
-            case 6 : {
+            case 8 : {
                 printList();
                 break;
             }
