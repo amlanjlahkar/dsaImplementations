@@ -7,12 +7,13 @@ typedef struct node_info {
 } Node;
 Node *head = NULL;
 
+// operations
 int is_empty();
 void insert_front(int node_data);
 void insert_after(int prev_node_data, int new_node_data);
 void insert_rear(int node_data);
 int free_front();
-int free_node(int prev_node_data);
+int free_after(int prev_node_data);
 int free_rear();
 int search(int node_data);
 void printList();
@@ -30,19 +31,18 @@ void insert_front(int node_data) {
 }
 
 void insert_after(int prev_node_data, int new_node_data) {
-    if (!search(prev_node_data)) {
-        printf("\ninvalid insertion.\n(node containing \'%d\' doesn't exist in the list)\n", prev_node_data);
-        return;
+    if (!is_empty() && search(prev_node_data)) {
+        Node *getnode = head;
+        while(getnode->next != NULL && getnode->data != prev_node_data) {
+            getnode = getnode->next;
+        }
+        Node *new_node = (Node*) malloc(sizeof(Node));
+        new_node->data = new_node_data;
+        new_node->next = getnode->next;
+        getnode->next = new_node;
+        printf("new node containg \'%d\' has been inserted in the list.\n", new_node_data);
     }
-    Node *getnode = head;
-    while(getnode->next != NULL && getnode->data != prev_node_data) {
-        getnode = getnode->next;
-    }
-    Node *new_node = (Node*) malloc(sizeof(Node));
-    new_node->data = new_node_data;
-    new_node->next = getnode->next;
-    getnode->next = new_node;
-    printf("new node containg \'%d\' has been inserted in the list.\n", new_node_data);
+    return;
 }
 
 void insert_rear(int node_data) {
@@ -71,14 +71,14 @@ int free_front() {
     return 0;
 }
 
-int free_node(int prev_node_data) {
+int free_after(int prev_node_data) {
     if (!is_empty() && head->next != NULL) {
         if (search(prev_node_data)) {
             Node *getnode = head;
             while(getnode->next != NULL && getnode->data != prev_node_data)
                 getnode = getnode->next;
             if (getnode->next == NULL) {
-                printf("\ninvalid deletion.\n(last node containing \'%d\' points to null)\n", prev_node_data);
+                printf("\ninvalid deletion!\n(last node containing \'%d\' points to null)\n", prev_node_data);
                 return 0;
             } else {
                 Node *target = getnode->next;
@@ -89,7 +89,7 @@ int free_node(int prev_node_data) {
                 return 1;
             }
         } else
-            printf("\ninvalid deletion.\n(the node containing \'%d\' is not in the list)\n", prev_node_data);
+            printf("\ninvalid deletion!\n(the node containing \'%d\' is not in the list)\n", prev_node_data);
     } else if (head->next == NULL) {
         puts("\nthere's only one node in the list!");
         return 0;
@@ -153,14 +153,19 @@ int search(int node_data) {
 
 void printList() {
     if (is_empty()) {
-        puts("\nlist is empty.");
+        puts("\nlist is empty!");
         return;
     }
     Node *getnode = head;
     printf("\n");
     while(getnode->next != NULL) {
-        printf("[ %d ] ---> ", getnode->data);
-        getnode = getnode->next;
+        if (getnode == head) {
+            printf("front : [ %d ] ---> ", getnode->data);
+            getnode = getnode->next;
+        } else {
+            printf("[ %d ] ---> ", getnode->data);
+            getnode = getnode->next;
+        }
     }
     if (getnode->next == NULL)
         printf("[ %d ]\n", getnode->data);
