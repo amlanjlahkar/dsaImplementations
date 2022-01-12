@@ -1,28 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "list_operations.h"
 
-typedef struct node_info {
-    int data;
-    struct node_info *next;
-} Node;
+// head points to the first node in the list
 Node *head = NULL;
 
-// operations
-int is_empty();
-void insert_front(int node_data);
-void insert_after(int prev_node_data, int new_node_data);
-void insert_rear(int node_data);
-int free_front();
-int free_after(int prev_node_data);
-int free_rear();
-int search(int node_data);
-void printList();
-
-int is_empty() {
-    return((head == NULL) ? 1 : 0);
-}
-
-// insertion
 void insert_front(int node_data) {
     Node *new_node = (Node*) malloc(sizeof(Node));
     new_node->data = node_data;
@@ -40,7 +22,6 @@ void insert_after(int prev_node_data, int new_node_data) {
         new_node->data = new_node_data;
         new_node->next = getnode->next;
         getnode->next = new_node;
-        printf("new node containg \'%d\' has been inserted in the list.\n", new_node_data);
     }
     return;
 }
@@ -59,7 +40,7 @@ void insert_rear(int node_data) {
     new_node->next = NULL;
 }
 
-// deletion
+
 int free_front() {
     if (!is_empty()) {
         Node *getnode = head;
@@ -85,11 +66,12 @@ int free_after(int prev_node_data) {
                 int freed_data = target->data;
                 getnode->next = target->next;
                 free(target);
-                printf("node containing \'%d\' has been freed.\n", freed_data);
+                printf("node containing \'%d\' has been freed.\n"
+                       "(number of node(s) remaining in the list = %d)\n", freed_data, list_size());
                 return 1;
             }
         } else
-            printf("\ninvalid deletion!\n(the node containing \'%d\' is not in the list)\n", prev_node_data);
+            printf("\ninvalid deletion!\n(node containing \'%d\' doesn't exist in the list)\n", prev_node_data);
     } else if (head->next == NULL) {
         puts("\nthere's only one node in the list!");
         return 0;
@@ -122,27 +104,45 @@ int free_rear() {
     return 0;
 }
 
+
+int is_empty() {
+    return((head == NULL) ? 1 : 0);
+}
+
+int list_size() {
+    if (!is_empty()) {
+        Node *getnode = head;
+        int size = 1;
+        while (getnode->next != NULL) {
+            getnode = getnode->next;
+            size++;
+        }
+        return size;
+    }
+    return 0;
+}
+
 int search(int node_data) {
     if (!is_empty()) {
-        int count = 1, is_available = 0;
+        int index = 1, is_available = 0;
         Node *seek = head;
         // if the only remaining node is the searched node
         if (seek->next == NULL && seek->data == node_data) {
             is_available = 1;
-            return count;
+            return index;
         } else {
             while(seek->next != NULL) {
                 if (seek->data == node_data) {
                     is_available = 1;
                     break;
                 }
-                count++;
+                index++;
                 seek = seek->next;
             }
             // if the last node is the searched node
             if (seek->data == node_data) {
                 is_available = 1;
-                return count;
+                return index;
             }
             else
                 return 0;
@@ -170,3 +170,12 @@ void printList() {
     if (getnode->next == NULL)
         printf("[ %d ]\n", getnode->data);
 }
+
+void resetList() {
+    if (!is_empty()) {
+        for (int size = list_size(); size >= 1; size--)
+            free_front();
+    }
+    return;
+}
+
