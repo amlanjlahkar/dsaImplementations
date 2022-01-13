@@ -110,7 +110,6 @@ int isEmpty(stackrec *ptr) {
         return false;
 }
 
-// push() is used for inserting item in the stack
 void push(stackrec *ptr, int topelement) {
     if (ptr->topindex == (STACKSIZE - 1)) {
         puts("\nstack is already full"
@@ -121,7 +120,6 @@ void push(stackrec *ptr, int topelement) {
     ptr->members[ptr->topindex] = topelement;
 }
 
-// pop() is used for removing item from the stack
 int pop(stackrec *ptr) {
     if (isEmpty(ptr)) {
         puts("\nstack is already empty"
