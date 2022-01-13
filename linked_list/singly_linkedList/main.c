@@ -35,7 +35,7 @@ int main() {
                 warn(&data);
                 insert_front(data);
                 printf("new node containing \'%d\' has been inserted at the front of the list.\n"
-                       "(new number of node(s) in the list = %d)\n", data, list_size());
+                       "(current number of node(s) in the list = %d)\n", data, list_size());
                 break;
             }
             case 2 : {
@@ -54,7 +54,7 @@ int main() {
                 warn(&data_new);
                 insert_after(data_prev, data_new);
                 printf("new node containg \'%d\' has been inserted in the list.\n"
-                       "(new number of node(s) in the list = %d)\n", data_new, list_size());
+                       "(current number of node(s) in the list = %d)\n", data_new, list_size());
                 break;
             }
             case 3 : {
@@ -62,7 +62,7 @@ int main() {
                 warn(&data);
                 insert_rear(data);
                 printf("new node containing \'%d\' has been inserted at the end of the list.\n"
-                       "(new number of node(s) in the list = %d)\n", data, list_size());
+                       "(current number of node(s) in the list = %d)\n", data, list_size());
                 break;
             }
             case 4 : {
@@ -103,7 +103,7 @@ int main() {
                     puts("\nlist is empty!");
                     break;
                 }
-                printf("enter the data(integer) of a node to search for in the list: ");
+                printf("enter the data(integer) of the node to search for in the list: ");
                 warn(&data);
                 int index = 0;
                 if ((index = search(data))) {
