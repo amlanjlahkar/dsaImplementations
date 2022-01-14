@@ -1,4 +1,4 @@
-/* c program to implement a singly linked list
+/* c program to implement a singly linked list containing integers
 to be test with standard input/output */
 
 #include <stdlib.h>

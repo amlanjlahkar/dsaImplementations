@@ -3,7 +3,7 @@
 #include "list_operations.h"
 
 // ensures successful reading of single integer from stdin
-void warn(int *si);
+void warn(int *num);
 
 int main() {
     int input = 0; int data;
@@ -133,8 +133,8 @@ int main() {
     }
 }
 
-void warn(int *si) {
-    if (scanf(" %d", si) != 1) {
+void warn(int *num) {
+    if (scanf(" %d", num) != 1) {
         puts("\nerror reading input!\n"
         "(please re-run the compiled output)\n");
         exit(1);
