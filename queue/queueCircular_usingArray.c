@@ -51,19 +51,19 @@ int main(void) {
 
         switch(input) {
             case 1 : {
-                if (isFull(&q)) {
-                    puts("queue is already full!");
+                if (!isFull(&q)) {
+                    printf("\nenter a value(integer) for the item: ");
+                    warn(&enqueued);
+                    enQueue(&q, enqueued);
+                    if (isFull(&q))
+                        printf("item has been inserted at the end of the queue.\n"
+                        "the queue is now full!\n");
+                    else
+                        printf("item has been inserted at the end of the queue.\n"
+                        "(current number of item(s) remaining in the queue = %d)\n", queueTotal(&q));
                     break;
                 }
-                printf("\nenter a value(integer) for the item: ");
-                warn(&enqueued);
-                enQueue(&q, enqueued);
-                if (isFull(&q))
-                    printf("item has been inserted at the end of the queue.\n"
-                    "the queue is now full!\n");
-                else
-                    printf("item has been inserted at the end of the queue.\n"
-                    "(current number of item(s) remaining in the queue = %d)\n", queueTotal(&q));
+                puts("\nqueue is already full");
                 break;
             }
             case 2 : {
@@ -113,22 +113,20 @@ int isFull(queuerec *ptr) {
 }
 
 void enQueue(queuerec *ptr, int rearelement) {
-    if (isFull(ptr)) {
-        puts("\nAttempting to add item to a non-empty queue"
-        " will cause overflow!");
-        return;
+    if (!isFull(ptr)) {
+        if (isEmpty(ptr))
+            emptindi = &FALSE;
+        if (ptr->frontindex == -1)
+            ptr->frontindex = 0;
+        ptr->rearindex = (ptr->rearindex + 1) % QUEUESIZE;
+        ptr->members[ptr->rearindex] = rearelement;
     }
-    else if (isEmpty(ptr))
-        emptindi = &FALSE;
-    if (ptr->frontindex == -1)
-        ptr->frontindex = 0;
-    ptr->rearindex = (ptr->rearindex + 1) % QUEUESIZE;
-    ptr->members[ptr->rearindex] = rearelement;
+    return;
 }
 
 int deQueue(queuerec *ptr) {
     if(isEmpty(ptr)) {
-        puts("\nAttempting to access item from an empty queue"
+        puts("\nattempting to access item from an empty queue"
         " will cause underflow!");
         return 0;
     }
@@ -163,7 +161,7 @@ int queueTotal(queuerec *ptr) {
 // warn() ensures successful reading of single integer from stdin
 void warn(int *a) {
     if (scanf(" %d", a) != 1) {
-        puts("\nError reading input\n"
+        puts("\nerror reading input\n"
         "(please re-run the compiled program)\n");
         exit(1);
     }
