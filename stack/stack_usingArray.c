@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 #define STACKSIZE 5
 typedef struct {
@@ -57,10 +56,10 @@ int main(void) {
                 warn(&topitem);
                 push(&stack, topitem);
                 if (stack.topindex < (STACKSIZE - 1))
-                    printf("item has been inserted into the stack.\n"
+                    printf("item has been placed at the top the stack.\n"
                     "(current number of item(s) in the stack = %d)\n", (stack.topindex)+1);
                 else if (stack.topindex < STACKSIZE)
-                    printf("item has been inserted into the stack.\n"
+                    printf("item has been placed at the top of the stack.\n"
                     "the stack is now full.\n");
                 break;
             }
@@ -68,10 +67,10 @@ int main(void) {
                 if ((poppeditem = pop(&stack))) {
                     topitem = stack.members[stack.topindex];
                     if (stack.topindex != -1)
-                        printf("\nitem \'%d\' from the stack has been removed.\n"
+                        printf("\nitem \'%d\' from top of the stack has been removed.\n"
                         "(number of item(s) remaining in the stack = %d\n", poppeditem, (stack.topindex)+1);
                     else
-                        printf("\nitem \'%d\' from stack has been removed.\n"
+                        printf("\nitem \'%d\' from top of the stack has been removed.\n"
                         "the stack is now empty!\n", poppeditem);
                 }
                 break;
@@ -104,27 +103,22 @@ int main(void) {
 }
 
 int isEmpty(stackrec *ptr) {
-    if (ptr->topindex == -1)
-        return true;
-    else
-        return false;
+    return((ptr->topindex) == -1 ? 1 : 0);
 }
 
 void push(stackrec *ptr, int topelement) {
-    if (ptr->topindex == (STACKSIZE - 1)) {
-        puts("\nstack is already full"
-        " and attempting to add more items to it will cause overflow.");
-        return;
+    if (!(ptr->topindex == (STACKSIZE - 1))) {
+        ptr->topindex += 1;
+        ptr->members[ptr->topindex] = topelement;
     }
-    ptr->topindex += 1;
-    ptr->members[ptr->topindex] = topelement;
+    return;
 }
 
 int pop(stackrec *ptr) {
     if (isEmpty(ptr)) {
         puts("\nstack is already empty"
         " and attempting to access item from it will cause underflow.");
-        return false;
+        return 0;
     }
     return(ptr->members[ptr->topindex--]);
 }
