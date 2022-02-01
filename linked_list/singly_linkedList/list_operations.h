@@ -17,7 +17,7 @@ void insert_rear(int node_data);
 
 // deletion
 int free_front();
-int free_after(int prev_node_data);
+int free_node(int prev_node_data);
 int free_rear();
 
 // other

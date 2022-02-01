@@ -52,15 +52,23 @@ int free_front() {
     return 0;
 }
 
-int free_after(int prev_node_data) {
-    if (!is_empty() && head->next != NULL) {
-        if (search(prev_node_data)) {
+int free_node(int node_data) {
+    if (!is_empty()) {
+        if (search(node_data)) {
             Node *getnode = head;
-            while(getnode->next != NULL && getnode->data != prev_node_data)
+            if (getnode->data == node_data) {
+                free_front();
+                printf("\nnode containing \'%d\' has been freed.\n"
+                       "(number of nodes remaining in the list = %d)\n", node_data, list_size());
+                return 1;
+            }
+            while(getnode->next != NULL && (getnode->next)->data != node_data)
                 getnode = getnode->next;
             if (getnode->next == NULL) {
-                printf("\ninvalid deletion!\n(last node containing \'%d\' points to null)\n", prev_node_data);
-                return 0;
+                free_rear();
+                printf("\nnode containing \'%d\' has been freed.\n"
+                       "(number of nodes remaining in the list = %d)\n", node_data, list_size());
+                return 1;
             } else {
                 Node *target = getnode->next;
                 int freed_data = target->data;
@@ -70,11 +78,9 @@ int free_after(int prev_node_data) {
                        "(number of node(s) remaining in the list = %d)\n", freed_data, list_size());
                 return 1;
             }
-        } else
-            printf("\ninvalid deletion!\n(node containing \'%d\' doesn't exist in the list)\n", prev_node_data);
-    } else if (head->next == NULL) {
-        puts("\nthere's only one node in the list!");
-        return 0;
+        } else {
+            printf("\ninvalid deletion!\n(node containing \'%d\' doesn't exist in the list)\n", node_data);
+        }
     }
     return 0;
 }

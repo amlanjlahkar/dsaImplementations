@@ -12,7 +12,7 @@ int main() {
              "\n2) insert node after another exisiting node"
              "\n3) insert node at the end"
              "\n4) free node from the front"
-             "\n5) free an intermediate node in the list"
+             "\n5) free a node from anywhere in the list"
              "\n6) free node from the end"
              "\n7) search for node data in the list"
              "\n8) print the list"
@@ -82,9 +82,9 @@ int main() {
                     break;
                 }
                 int data_prev = 0;
-                printf("enter the data(integer) of the preceding node: ");
+                printf("enter the data(integer) stored on the node to be deleted: ");
                 warn(&data_prev);
-                free_after(data_prev);
+                free_node(data_prev);
                 break;
             }
             case 6 : {
