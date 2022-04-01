@@ -8,7 +8,7 @@ int partition(int *sub_array, int low, int up) {
     int pivot = sub_array[low];
     int mark = low - 1;
 
-    for (int i = low; i < up; i++) {
+    for (int i = low; i <= up; i++) {
         if (sub_array[i] <= pivot) {
             mark++;
             /* at this point, if sub_array[mark] > sub_array[i]
