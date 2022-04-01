@@ -45,7 +45,7 @@ void quick_sort(int *array, int lb, int ub) {
 int main(void) {
     int test_array[8] = {-1, 0, 2, 8, 4, 12, -9, 33};
     int lb = 0;
-    int ub = sizeof(test_array)/sizeof(int);
+    int ub = sizeof(test_array)/sizeof(test_array[0]);
     quick_sort(test_array, lb, ub);
     for (int j = lb; j < ub; j++)
         printf("%d\t", test_array[j]);
