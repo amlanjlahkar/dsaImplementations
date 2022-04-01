@@ -1,11 +1,5 @@
 #include <stdio.h>
-
-// swap fuction
-void swap(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
+#include "operations.c"
 
 // function to generate two sub_arrays around a pivot element
 // the pivot element then gets transferred to its final sorted index in the array
@@ -43,12 +37,14 @@ void quick_sort(int *array, int lb, int ub) {
 
 // test
 int main(void) {
-    int test_array[8] = {-1, 0, 2, 8, 4, 12, -9, 33};
-    int lb = 0;
-    int ub = sizeof(test_array)/sizeof(test_array[0]);
-    quick_sort(test_array, lb, ub);
-    for (int j = lb; j < ub; j++)
-        printf("%d\t", test_array[j]);
+    int test_array[] = { -1, 0, 2, 8, 4, 12, -9, 33, 0, 21, 22, 1 };
+    int lb = 0; int ub = sizeof(test_array)/sizeof(test_array[0]);
+
+    printf("\norigin array:\t"); print_arr(test_array, lb, ub);
+    quick_sort(test_array, lb, ub-1);
+    printf("\nafter sorting:\t"); print_arr(test_array, lb, ub);
     printf("\n");
+
+    return 0;
 }
 
