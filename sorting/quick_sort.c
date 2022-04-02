@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "operations.c"
 
-// function to generate two sub_arrays around a pivot element
-// the pivot element then gets transferred to its final sorted index in the array
-// such that left sub_array elements < pivot > right sub_array elements
 int partition(int *sub_array, int low, int up) {
     int pivot = sub_array[low];
     int mark = low - 1;
@@ -23,11 +20,8 @@ int partition(int *sub_array, int low, int up) {
     return mark;
 }
 
-// function to repeatedly create partitions
-// until no further sub arrays can be generated
-// that is, all elements are sorted
 void quick_sort(int *array, int lb, int ub) {
-    // when ther's single element left, lb = ub
+    // when there's single element left, lb = ub
     if (lb < ub) {
         int mark_pivot = partition(array, lb, ub);
         quick_sort(array, lb, mark_pivot-1);
@@ -35,7 +29,6 @@ void quick_sort(int *array, int lb, int ub) {
     }
 }
 
-// test
 int main(void) {
     int test_array[] = { -1, 0, 2, 8, 4, 12, -9, 33, 0, 21, 22, 1 };
     int lb = 0; int ub = sizeof(test_array)/sizeof(test_array[0]);
