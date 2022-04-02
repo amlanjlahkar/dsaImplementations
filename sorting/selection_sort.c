@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "operations.c"
+#include "operations/operations.c"
 
 void selection_sort(int *array, int n) {
     for (int i = 0; i < n-1; i++) {

@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "operations.c"
+#include "operations/operations.c"
 
 int partition(int *sub_array, int low, int up) {
     int pivot = sub_array[low];

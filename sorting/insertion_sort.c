@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "operations.c"
+#include "operations/operations.c"
 
 void insertion_sort(int *array, int n) {
     for (int i = 1; i < n; i++) {
