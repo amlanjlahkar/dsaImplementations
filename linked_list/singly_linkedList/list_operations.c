@@ -130,26 +130,21 @@ int list_size() {
 
 int search(int node_data) {
     if (!is_empty()) {
-        int index = 1, is_available = 0;
+        int index = 1;
         Node *seek = head;
         // if the only remaining node is the searched node
         if (seek->next == NULL && seek->data == node_data) {
-            is_available = 1;
             return index;
         } else {
             while(seek->next != NULL) {
-                if (seek->data == node_data) {
-                    is_available = 1;
+                if (seek->data == node_data)
                     break;
-                }
                 index++;
                 seek = seek->next;
             }
             // if the last node is the searched node
-            if (seek->data == node_data) {
-                is_available = 1;
+            if (seek->data == node_data)
                 return index;
-            }
             else
                 return 0;
         }
