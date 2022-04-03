@@ -2,12 +2,9 @@
 
 void insertion_sort(int *array, int n) {
     for (int i = 1; i < n; i++) {
-        int key = array[i];
-        int prev = i - 1;
-        while (array[prev] > key && prev >= 0) {
+        int key = array[i]; int prev = i - 1;
+        for (; prev >= 0 && array[prev] > key; prev--)
             array[prev+1] = array[prev];
-            prev--;
-        }
         array[prev+1] = key;
     }
 }
