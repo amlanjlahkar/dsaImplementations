@@ -1,6 +1,6 @@
 #include "operations/operations.c"
 
-void selection_sort(int *array, int n) {
+void selection_sort(int array[], int n) {
     for (int i = 0; i < n-1; i++) {
         int marked_index = i;
         for (int j = i + 1; j < n; j++) {

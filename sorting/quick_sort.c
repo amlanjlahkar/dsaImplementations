@@ -1,6 +1,6 @@
 #include "operations/operations.c"
 
-int partition(int *sub_array, int low, int up) {
+int partition(int sub_array[], int low, int up) {
     int pivot = sub_array[low];
     int mark = low - 1;
 
@@ -19,7 +19,7 @@ int partition(int *sub_array, int low, int up) {
     return mark;
 }
 
-void quick_sort(int *array, int lb, int ub) {
+void quick_sort(int array[], int lb, int ub) {
     // when there's single element left, lb = ub
     if (lb < ub) {
         int mark_pivot = partition(array, lb, ub);

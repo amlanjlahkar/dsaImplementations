@@ -1,6 +1,6 @@
 #include "operations/operations.c"
 
-void insertion_sort(int *array, int n) {
+void insertion_sort(int array[], int n) {
     for (int i = 1; i < n; i++) {
         int key = array[i]; int prev = i - 1;
         for (; prev >= 0 && array[prev] > key; prev--)
