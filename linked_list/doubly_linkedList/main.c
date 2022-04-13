@@ -1,4 +1,4 @@
-#include "list_operations.c"
+#include "list_operations.h"
 #include <stdio.h>
 
 int main(void) {
