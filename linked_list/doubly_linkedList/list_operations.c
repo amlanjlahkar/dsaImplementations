@@ -55,8 +55,8 @@ void deleteBy_node_data(int node_data) {
         free(target);
         ptr = NULL;
       } else {
-        printf("Node doesn't exist(or cude emrror).\n");
         ptr = NULL;
+        return;
       }
     }
   }
