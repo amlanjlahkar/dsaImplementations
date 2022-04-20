@@ -40,12 +40,10 @@ int precedence(const char ch) {
   case '+':
   case '-':
     return 1;
-    break;
   case '*':
   case '/':
   case '%':
     return 2;
-    break;
   }
   return 0;
 }
@@ -71,7 +69,7 @@ void inpo(char expr[]) {
       push(&stack, expr[i]);
     }
   }
-  // append the remaing characters to the array
+  // append the remaining characters to the array
   while (!isEmpty(&stack))
     expr[++j] = pop(&stack);
   expr[++j] = '\0';
