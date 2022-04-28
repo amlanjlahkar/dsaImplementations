@@ -1,10 +1,12 @@
 #include "operations/operations.c"
 
 void merge(int array[], int lb, int mid, int ub) {
+  // creating left and right arrays based on mid
   int lsize = mid - lb + 1;
   int rsize = ub - mid;
   int left[lsize], right[rsize];
 
+  // filling up the left and right arrays
   for (int a = 0; a < lsize || a < rsize; a++) {
     (a < lsize) ? left[a] = array[lb + a] : 0;
     (a < rsize) ? right[a] = array[mid + 1 + a] : 0;
@@ -13,6 +15,8 @@ void merge(int array[], int lb, int mid, int ub) {
   int il = 0;
   int ir = 0;
   int is;
+  /* manipulating the origin array based on
+  the magnitude of elements from left and right arrays */
   for (is = lb; il < lsize && ir < rsize; is++) {
     if (left[il] <= right[ir])
       array[is] = left[il++];
@@ -20,6 +24,7 @@ void merge(int array[], int lb, int mid, int ub) {
       array[is] = right[ir++];
   }
 
+  // assign remaing elements
   while (il < lsize || ir < rsize) {
     (il < lsize) ? array[is++] = left[il++] : 0;
     (ir < rsize) ? array[is++] = right[ir++] : 0;
