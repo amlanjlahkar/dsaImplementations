@@ -85,7 +85,7 @@ int main(void) {
                             else if (i == q.rearindex)
                                 printf("%7d\t<--- rear\n", q.members[i]);
                             else
-                                printf("%5d\n", q.members[i]);
+			      printf("%5d\n", q.members[i]);
                         }
                 }
                 break;
