@@ -21,7 +21,7 @@ int pop(Node *head_ptr) {
   Node *ptr = head;
   int deleted_node_data = ptr->data;
   head = ptr->next;
-  ptr = NULL;
+  free(ptr);
   return deleted_node_data;
 }
 
