@@ -6,10 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define STACKSIZE 5
+static unsigned int STACKSIZE = 0;
 typedef struct {
   int topindex;
-  int members[STACKSIZE];
+  int *members;
 } stackrec;
 /* index of the top of the stack element is set to -1
  * so that upon first entry, -1 + 1 = 0,
@@ -27,6 +27,9 @@ void warn(int *);
 
 int main(void) {
   int input = 0, topitem = 0, poppeditem = 0;
+  printf("\nEnter stack size: ");
+  scanf("%d", &STACKSIZE);
+  stack.members = (int *)malloc(STACKSIZE * sizeof(int));
   printf("\n(stack capacity = %d)\n", STACKSIZE);
   while (1) {
     puts("\n1) push a new item to the stack"
@@ -41,6 +44,7 @@ int main(void) {
       puts("\nplease provide a valid input.");
       continue;
     } else if (input == 5) {
+      free(stack.members);
       puts("\nterminated.\n");
       break;
     }
@@ -56,7 +60,7 @@ int main(void) {
       warn(&topitem);
       push(&stack, topitem);
       if (stack.topindex < (STACKSIZE - 1))
-        printf("item has been placed at the top the stack.\n"
+        printf("item has been placed at the top of stack.\n"
                "(current number of item(s) in the stack = %d)\n",
                (stack.topindex) + 1);
       else if (stack.topindex < STACKSIZE)
