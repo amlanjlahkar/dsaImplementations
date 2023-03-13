@@ -106,4 +106,3 @@ void print_list() {
   printf("%d\n", ptr->data);
   ptr = NULL;
 }
-

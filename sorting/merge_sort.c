@@ -15,8 +15,6 @@ void merge(int array[], int lb, int mid, int ub) {
   int il = 0;
   int ir = 0;
   int is;
-  /* manipulating the origin array based on
-  the magnitude of elements from left and right arrays */
   for (is = lb; il < lsize && ir < rsize; is++) {
     if (left[il] <= right[ir])
       array[is] = left[il++];

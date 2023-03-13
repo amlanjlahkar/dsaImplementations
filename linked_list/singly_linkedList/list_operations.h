@@ -3,8 +3,8 @@ to be test with standard input/output */
 
 // node structure
 typedef struct node_info {
-    int data;
-    struct node_info *next;
+  int data;
+  struct node_info *next;
 } Node;
 
 /* list operations */
