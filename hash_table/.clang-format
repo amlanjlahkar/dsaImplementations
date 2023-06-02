@@ -1,0 +1,11 @@
+Language: Cpp
+BasedOnStyle: LLVM
+IndentWidth: 2
+PointerAlignment: Left
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveMacros: AcrossEmptyLines
+AlignEscapedNewlines: Right
+IndentCaseLabels: true
+IndentCaseBlocks: true
+IndentPPDirectives: AfterHash
+AllowShortIfStatementsOnASingleLine: false
