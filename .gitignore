@@ -1,4 +1,8 @@
 a.out
 output
-*.o
 examples/
+
+**/*.o
+**/obj/
+
+**/bin/
