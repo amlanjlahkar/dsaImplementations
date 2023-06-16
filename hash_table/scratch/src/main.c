@@ -1,5 +1,3 @@
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,34 +28,34 @@ const size_t hash_fnv1a(const char* key, size_t table_size) {
 }
 
 hash_table* table_init(const size_t size) {
-  hash_table* table = (hash_table*)malloc(sizeof(hash_table));
+  hash_table* table = malloc(sizeof(hash_table));
   table->size       = size;
-  table->entries    = calloc(sizeof(entry*), table->size);
+  table->entries    = calloc(table->size, sizeof(entry*));
   return table;
 }
 
 entry* new_entry(const char* key, const char* value) {
-  entry* n = (entry*)malloc(sizeof(entry));
-  n->key   = (char*)malloc(strlen(key) + 1);
-  n->value = (char*)malloc(strlen(value) + 1);
-  strcpy(n->key, key);
-  strcpy(n->value, value);
-  return n;
+  entry* e = malloc(sizeof(entry));
+  e->key   = malloc(strlen(key) + 1);
+  e->value = malloc(strlen(value) + 1);
+  strcpy(e->key, key);
+  strcpy(e->value, value);
+  return e;
 }
 
 // currently not handling collisons
 size_t collisons = 0;
 void table_put(hash_table* table, const char* key, const char* value) {
   size_t index = hash_fnv1a(key, table->size);
-  entry* n     = table->entries[index];
-  if (n == NULL) {
+  entry* e     = table->entries[index];
+  if (e == NULL) {
     table->entries[index] = new_entry(key, value);
     return;
   }
-  if (strcmp(n->key, key) == 0) {
-    free(n->value);
-    n->value = (char*)malloc(strlen(value) + 1);
-    strcpy(n->value, value);
+  if (strcmp(e->key, key) == 0) {
+    free(e->value);
+    e->value = malloc(strlen(value) + 1);
+    strcpy(e->value, value);
     return;
   } else {
     collisons++;
@@ -66,17 +64,18 @@ void table_put(hash_table* table, const char* key, const char* value) {
 
 entry* table_lookup(hash_table* table, const char* key) {
   size_t index = hash_fnv1a(key, table->size);
-  entry* n     = table->entries[index];
-  return (n && strcmp(n->key, key) == 0) ? n : NULL;
+  entry* e     = table->entries[index];
+  return (e && strcmp(e->key, key) == 0) ? e : NULL;
 }
 
 void table_delete(hash_table* table, const char* key) {
   size_t index = hash_fnv1a(key, table->size);
-  entry* n     = table->entries[index];
+  entry* e     = table->entries[index];
 
-  if (n && strcmp(n->key, key) == 0) {
-    free(n->value);
-    free(n->key);
+  if (e && strcmp(e->key, key) == 0) {
+    free(e->value);
+    free(e->key);
+    free(e);
     table->entries[index] = NULL;
   }
 }
@@ -90,9 +89,9 @@ void table_print(hash_table* table) {
   printf("\n");
   puts("hash\t\tkey\t\tvalue");
   puts("-----\t\t-----\t\t-----");
-  for (uint32_t i = 0; i < table->size; i++) {
+  for (size_t i = 0; i < table->size; i++) {
     if (!(table->entries[i] == NULL)) {
-      printf("%i\t\t%s\t\t%s\n", i, table->entries[i]->key,
+      printf("%zu\t\t%s\t\t%s\n", i, table->entries[i]->key,
              table->entries[i]->value);
     }
   }
@@ -101,7 +100,7 @@ void table_print(hash_table* table) {
 
 int main(void) {
   const size_t table_size = 10;
-  hash_table* t1 = table_init(table_size);
+  hash_table* t1          = table_init(table_size);
 
   char* key1 = "India";
   char* key2 = "Japan";
@@ -115,6 +114,8 @@ int main(void) {
   table_put(t1, key2, "Tokyo");
   table_put(t1, key3, "Beijing");
   table_put(t1, key4, "Oslo");
+  table_put(t1, key5, "Berlin");
+  table_put(t1, key6, "London");
   table_put(t1, key7, "Moscow");
 
   table_print(t1);
