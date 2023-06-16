@@ -1,6 +1,6 @@
 Language: Cpp
 BasedOnStyle: LLVM
-IndentWidth: 2
+IndentWidth: 4
 PointerAlignment: Left
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveMacros: AcrossEmptyLines
