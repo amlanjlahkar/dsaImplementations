@@ -1,5 +1,5 @@
 CC=zig
-CFLAGS=cc -Wall -g -Og -std=c17
+CFLAGS=cc -Wall -Wextra -g -Og -std=c17
 
 SRCDIR=src
 OBJDIR=obj
@@ -8,7 +8,7 @@ SRCFILES:=$(wildcard $(SRCDIR)/*.c)
 OBJFILES:=$(SRCFILES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 BIN=bst
 
-ifndef verbose
+ifndef vb
 .SILENT:
 endif
 
@@ -28,5 +28,5 @@ clean:
 
 run:
 	$(MAKE) -s $(BIN)
-	./$(BIN)
+	valgrind -q -s --leak-check=full ./$(BIN)
 
