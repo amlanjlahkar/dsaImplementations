@@ -61,59 +61,63 @@ int main(void) {
                     printf("\nenter the value(integer) for the item: ");
                     warn(&topitem);
                     push(&stack, topitem);
-                    if (stack.topindex < (STACKSIZE - 1))
+                    if (stack.topindex < (STACKSIZE - 1)) {
                         printf(
                             "item has been placed at the top of stack.\n"
                             "(current number of item(s) in the stack = %d)\n",
                             (stack.topindex) + 1);
-                    else if (stack.topindex < STACKSIZE)
+                    } else if (stack.topindex < STACKSIZE) {
                         printf("item has been placed at the top of the stack.\n"
                                "the stack is now full.\n");
+                    }
                     break;
                 }
             case 2:
                 {
                     if ((poppeditem = pop(&stack))) {
                         topitem = stack.members[stack.topindex];
-                        if (stack.topindex != -1)
+                        if (stack.topindex != -1) {
                             printf("\nitem \'%d\' from top of the stack has "
                                    "been removed.\n"
                                    "(number of item(s) remaining in the stack "
                                    "= %d\n",
                                    poppeditem, (stack.topindex) + 1);
-                        else
+                        } else {
                             printf("\nitem \'%d\' from top of the stack has "
                                    "been removed.\n"
                                    "the stack is now empty!\n",
                                    poppeditem);
+                        }
                     }
                     break;
                 }
             case 3:
                 {
-                    if (isEmpty(&stack))
+                    if (isEmpty(&stack)) {
                         puts("\nthe stack is empty!");
-                    else
+                    } else {
                         printf("the item currently at the top of the stack is "
                                "%d.\n",
                                topitem);
+                    }
                     break;
                 }
             case 4:
                 {
-                    if (isEmpty(&stack))
+                    if (isEmpty(&stack)) {
                         puts("\nthe stack is empty!");
-                    else {
+                    } else {
                         printf("\n");
                         for (int i = stack.topindex; i >= 0; i--) {
-                            if (i == stack.topindex)
+                            if (i == stack.topindex) {
                                 printf("%7d\t<--- top of the stack\n",
                                        stack.members[i]);
-                            else if (i == 0)
+                            } else if (i == 0) {
                                 printf("%7d\t<--- bottom of the stack\n",
                                        stack.members[i]);
-                            else
+                            } else {
                                 printf("%5d\n", stack.members[i]);
+                            }
                         }
                     }
                     break;

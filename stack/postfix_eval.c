@@ -20,31 +20,24 @@ void push(stackrec* ptr, int topelement) {
 }
 
 int pop(stackrec* ptr) {
-    if (!isEmpty(ptr))
+    if (!isEmpty(ptr)) {
         return (ptr->members[ptr->topindex--]);
+    }
     return 0;
 }
 
 int eval_postfix(const char expr[]) {
     for (long i = 0; i < strlen(expr); i++) {
-        if (isdigit(expr[i]))
+        if (isdigit(expr[i])) {
             push(&stack, expr[i] - '0');
-        else {
+        } else {
             long operand1 = pop(&stack);
             long operand2 = pop(&stack);
             switch (expr[i]) {
-                case '+':
-                    push(&stack, operand2 + operand1);
-                    break;
-                case '-':
-                    push(&stack, operand2 - operand1);
-                    break;
-                case '*':
-                    push(&stack, operand2 * operand1);
-                    break;
-                case '/':
-                    push(&stack, operand2 / operand1);
-                    break;
+                case '+': push(&stack, operand2 + operand1); break;
+                case '-': push(&stack, operand2 - operand1); break;
+                case '*': push(&stack, operand2 * operand1); break;
+                case '/': push(&stack, operand2 / operand1); break;
             }
         }
     }

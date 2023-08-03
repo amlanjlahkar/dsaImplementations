@@ -9,14 +9,15 @@ void insert_front(int node_data) {
     new_node->data = node_data;
     new_node->prev = NULL;
     new_node->next = head;
-    if (head != NULL)
+    if (head != NULL) {
         head->prev = new_node;
+    }
     head = new_node;
 }
 
 void insertBy_node_position(int position, int node_data) {
     if (head != NULL && position <= list_size()) {
-        int init  = 1;
+        int init = 1;
         Node* ptr = head;
         while (init != position && ptr->next != NULL) {
             init++;
@@ -27,11 +28,11 @@ void insertBy_node_position(int position, int node_data) {
         new_node->next = ptr;
         if (ptr->prev != NULL) {
             (ptr->prev)->next = new_node;
-            ptr->prev         = new_node;
-            new_node->prev    = (ptr->prev)->prev;
+            ptr->prev = new_node;
+            new_node->prev = (ptr->prev)->prev;
         } else {
-            head->prev     = new_node;
-            head           = new_node;
+            head->prev = new_node;
+            head = new_node;
             new_node->prev = NULL;
         }
         ptr = NULL;
@@ -44,14 +45,15 @@ void deleteBy_node_data(int node_data) {
         Node* ptr = head;
         if (ptr->data == node_data) {
             head = ptr->next;
-            ptr  = NULL;
+            ptr = NULL;
         } else {
-            while (ptr->next != NULL && (ptr->next)->data != node_data)
+            while (ptr->next != NULL && (ptr->next)->data != node_data) {
                 ptr = ptr->next;
+            }
             if (ptr->next != NULL) {
                 Node* target = ptr->next;
-                ptr->next    = target->next;
-                ptr->prev    = target->prev;
+                ptr->next = target->next;
+                ptr->prev = target->prev;
                 free(target);
                 ptr = NULL;
             } else {
@@ -65,19 +67,21 @@ void deleteBy_node_data(int node_data) {
 
 int deleteBy_node_position(int position) {
     if (head != NULL && position <= list_size()) {
-        int init  = 0;
+        int init = 0;
         Node* ptr = head;
         while (init != position - 1 && ptr->next != NULL) {
             init++;
             ptr = ptr->next;
         }
         int freed_node_data = ptr->data;
-        if (ptr->prev != NULL)
+        if (ptr->prev != NULL) {
             (ptr->prev)->next = ptr->next;
-        else
+        } else {
             head = ptr->next;
-        if (ptr->next != NULL)
+        }
+        if (ptr->next != NULL) {
             (ptr->next)->prev = ptr->prev;
+        }
         free(ptr);
         return freed_node_data;
     }
@@ -87,7 +91,7 @@ int deleteBy_node_position(int position) {
 int list_size() {
     if (head != NULL) {
         Node* ptr = head;
-        int size  = 1;
+        int size = 1;
         while (ptr->next != NULL) {
             ptr = ptr->next;
             size++;

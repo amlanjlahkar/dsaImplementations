@@ -53,16 +53,17 @@ int main(void) {
                     printf("enter a value(integer) for the item: ");
                     warn(&enqueued);
                     enQueue(&q, enqueued);
-                    if (q.rearindex == (QUEUESIZE - 1))
+                    if (q.rearindex == (QUEUESIZE - 1)) {
                         printf(
                             "item has been inserted at the end of the queue.\n"
                             "the queue is now full!\n");
-                    else
+                    } else {
                         printf(
                             "item has been inserted at the end of the queue.\n"
                             "(current number of item(s) remaining in the queue "
                             "= %d)\n",
                             (q.rearindex - q.frontindex) + 1);
+                    }
                     break;
                 }
             case 2:
@@ -71,34 +72,36 @@ int main(void) {
                         // set the previous element value to 0 after shifting
                         // frontindex
                         q.members[(q.frontindex) - 1] = 0;
-                        if (q.frontindex == (q.rearindex) + 1)
+                        if (q.frontindex == (q.rearindex) + 1) {
                             printf("item \'%d\' from the front of the queue "
                                    "has been removed.\n"
                                    "the queue is now empty!\n",
                                    dequeued);
-                        else
+                        } else {
                             printf("item \'%d\' from the front of the queue "
                                    "has been removed.\n"
                                    "(number of item(s) remaining in the queue "
                                    "= %d)\n",
                                    dequeued, (q.rearindex - q.frontindex) + 1);
+                        }
                         break;
                     }
                     break;
                 }
             case 3:
                 {
-                    if (isEmpty(&q))
+                    if (isEmpty(&q)) {
                         puts("\nqueue is empty!");
-                    else {
+                    } else {
                         printf("\n");
                         for (int i = 0; i <= q.rearindex; i++) {
-                            if (i == q.frontindex)
+                            if (i == q.frontindex) {
                                 printf("%7d\t<--- front\n", q.members[i]);
-                            else if (i == q.rearindex)
+                            } else if (i == q.rearindex) {
                                 printf("%7d\t<--- rear\n", q.members[i]);
-                            else
+                            } else {
                                 printf("%5d\n", q.members[i]);
+                            }
                         }
                     }
                     break;

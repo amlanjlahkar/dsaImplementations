@@ -14,11 +14,12 @@ typedef struct {
 } hash_table;
 
 const size_t hash_fnv1a(const char* key, size_t table_size) {
-    size_t hash        = 0xcbf29ce484222326;
+    size_t hash = 0xcbf29ce484222326;
     const size_t prime = 0x100000001b3;
 
-    if (!table_size)
+    if (!table_size) {
         table_size = 100;
+    }
     size_t c = 0;
     while ((c = *key++)) {
         hash ^= c;
@@ -29,14 +30,14 @@ const size_t hash_fnv1a(const char* key, size_t table_size) {
 
 hash_table* table_init(const size_t size) {
     hash_table* table = malloc(sizeof(hash_table));
-    table->size       = size;
-    table->entries    = calloc(table->size, sizeof(entry*));
+    table->size = size;
+    table->entries = calloc(table->size, sizeof(entry*));
     return table;
 }
 
 entry* new_entry(const char* key, const char* value) {
     entry* e = malloc(sizeof(entry));
-    e->key   = malloc(strlen(key) + 1);
+    e->key = malloc(strlen(key) + 1);
     e->value = malloc(strlen(value) + 1);
     strcpy(e->key, key);
     strcpy(e->value, value);
@@ -47,7 +48,7 @@ entry* new_entry(const char* key, const char* value) {
 size_t collisons = 0;
 void table_put(hash_table* table, const char* key, const char* value) {
     size_t index = hash_fnv1a(key, table->size);
-    entry* e     = table->entries[index];
+    entry* e = table->entries[index];
     if (e == NULL) {
         table->entries[index] = new_entry(key, value);
         return;
@@ -64,13 +65,13 @@ void table_put(hash_table* table, const char* key, const char* value) {
 
 entry* table_lookup(hash_table* table, const char* key) {
     size_t index = hash_fnv1a(key, table->size);
-    entry* e     = table->entries[index];
+    entry* e = table->entries[index];
     return (e && strcmp(e->key, key) == 0) ? e : NULL;
 }
 
 void table_delete(hash_table* table, const char* key) {
     size_t index = hash_fnv1a(key, table->size);
-    entry* e     = table->entries[index];
+    entry* e = table->entries[index];
 
     if (e && strcmp(e->key, key) == 0) {
         free(e->value);
@@ -100,7 +101,7 @@ void table_print(hash_table* table) {
 
 int main(void) {
     const size_t table_size = 10;
-    hash_table* t1          = table_init(table_size);
+    hash_table* t1 = table_init(table_size);
 
     char* key1 = "India";
     char* key2 = "Japan";

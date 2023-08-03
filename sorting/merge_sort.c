@@ -16,10 +16,11 @@ void merge(int array[], int lb, int mid, int ub) {
     int ir = 0;
     int is;
     for (is = lb; il < lsize && ir < rsize; is++) {
-        if (left[il] <= right[ir])
+        if (left[il] <= right[ir]) {
             array[is] = left[il++];
-        else
+        } else {
             array[is] = right[ir++];
+        }
     }
 
     // assign remaing elements
@@ -40,8 +41,8 @@ void merge_sort(int array[], int lb, int ub) {
 
 int main(void) {
     int test_array[] = {-1, 0, 2, 8, 4, 12, -9, 33, 0, 21, 22, 1};
-    int lb           = 0;
-    int ub           = sizeof(test_array) / sizeof(test_array[0]);
+    int lb = 0;
+    int ub = sizeof(test_array) / sizeof(test_array[0]);
 
     printf("\norigin array:\t");
     print_arr(test_array, lb, ub);

@@ -90,7 +90,7 @@ int main() {
                         break;
                     }
                     int data = 0;
-                    data     = free_front();
+                    data = free_front();
                     printf("node containing \'%d\' has been freed from the "
                            "front of the list.\n"
                            "(number of node(s) remaining in the list = %d)\n",
@@ -117,7 +117,7 @@ int main() {
                         break;
                     }
                     int data = 0;
-                    data     = free_rear();
+                    data = free_rear();
                     printf("node containing \'%d\' has been freed from the end "
                            "of the list.\n"
                            "(number of node(s) remaining in the list = %d)\n",
@@ -135,20 +135,22 @@ int main() {
                     warn(&data);
                     int index = 0;
                     if ((index = search(data))) {
-                        if (index == 1)
+                        if (index == 1) {
                             printf("the node containing \'%d\' is available at "
                                    "the very front of "
                                    "the list.\n",
                                    data);
-                        else
+                        } else {
                             printf("the node containing \'%d\' is available at "
                                    "the distance of "
                                    "%d node(s) from head.\n",
                                    data, index);
-                    } else
+                        }
+                    } else {
                         printf("the node containing \'%d\' doesn't exist in "
                                "the list.\n",
                                data);
+                    }
                     break;
                 }
             case 8:

@@ -13,8 +13,9 @@ int isEmpty(stackrec* ptr) { return ((ptr->topindex) == -1 ? 1 : 0); }
 
 // top of stack element
 int tos(stackrec* ptr) {
-    if (!isEmpty(ptr))
+    if (!isEmpty(ptr)) {
         return (ptr->members[ptr->topindex]);
+    }
     return 0;
 }
 
@@ -26,8 +27,9 @@ void push(stackrec* ptr, int topelement) {
 }
 
 int pop(stackrec* ptr) {
-    if (!isEmpty(ptr))
+    if (!isEmpty(ptr)) {
         return (ptr->members[ptr->topindex--]);
+    }
     return 0;
 }
 
@@ -38,12 +40,10 @@ int is_operand(const char ch) {
 int precedence(const char ch) {
     switch (ch) {
         case '+':
-        case '-':
-            return 1;
+        case '-': return 1;
         case '*':
         case '/':
-        case '%':
-            return 2;
+        case '%': return 2;
     }
     return 0;
 }
@@ -51,11 +51,11 @@ int precedence(const char ch) {
 void inpo(char expr[]) {
     long i, j;
     for (i = 0, j = -1; i < strlen(expr); i++) {
-        if (is_operand(expr[i]))
+        if (is_operand(expr[i])) {
             expr[++j] = expr[i];
-        else if (expr[i] == '(')
+        } else if (expr[i] == '(') {
             push(&stack, expr[i]);
-        else if (expr[i] == ')') {
+        } else if (expr[i] == ')') {
             while (!isEmpty(&stack) && tos(&stack) != '(') {
                 expr[++j] = pop(&stack);
             }
@@ -70,8 +70,9 @@ void inpo(char expr[]) {
         }
     }
     // append the remaining characters to the array
-    while (!isEmpty(&stack))
+    while (!isEmpty(&stack)) {
         expr[++j] = pop(&stack);
+    }
     expr[++j] = '\0';
 }
 

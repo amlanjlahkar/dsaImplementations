@@ -3,12 +3,13 @@
 int binary_search(int array[], int lb, int ub, int element) {
     if (lb <= ub) {
         int mid = (lb + ub) / 2;
-        if (array[mid] == element)
+        if (array[mid] == element) {
             return mid;
-        else if (array[mid] > element)
+        } else if (array[mid] > element) {
             return binary_search(array, lb, mid - 1, element);
-        else
+        } else {
             return binary_search(array, mid + 1, ub, element);
+        }
     }
     return -1;
 }
@@ -20,10 +21,11 @@ int main(void) {
     scanf("%d", &element);
 
     int index = binary_search(array, 0, 9, element);
-    if (index == -1)
+    if (index == -1) {
         printf("The element %d is not present in the array.\n", element);
-    else
+    } else {
         printf("The element %d is present at index %d in the array.\n", element,
                index);
+    }
     return 0;
 }

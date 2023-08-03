@@ -3,8 +3,8 @@
 
 void swap(int* a, int* b) {
     int temp = *a;
-    *a       = *b;
-    *b       = temp;
+    *a = *b;
+    *b = temp;
 }
 
 void print_arr(int* array, int lower_bound, int upper_bound) {

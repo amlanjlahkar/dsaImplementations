@@ -2,7 +2,7 @@
 
 int partition(int sub_array[], int low, int up) {
     int pivot = sub_array[low];
-    int mark  = low - 1;
+    int mark = low - 1;
 
     for (int i = low; i <= up; i++) {
         if (sub_array[i] <= pivot) {
@@ -30,8 +30,8 @@ void quick_sort(int array[], int lb, int ub) {
 
 int main(void) {
     int test_array[] = {-1, 0, 2, 8, 4, 12, -9, 33, 0, 21, 22, 1};
-    int lb           = 0;
-    int ub           = sizeof(test_array) / sizeof(test_array[0]);
+    int lb = 0;
+    int ub = sizeof(test_array) / sizeof(test_array[0]);
 
     printf("\norigin array:\t");
     print_arr(test_array, lb, ub);

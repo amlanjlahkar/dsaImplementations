@@ -14,13 +14,13 @@ void push(Node* head_ptr, int node_data) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     new_node->data = node_data;
     new_node->next = head;
-    head           = new_node;
+    head = new_node;
 }
 
 int pop(Node* head_ptr) {
-    Node* ptr             = head;
+    Node* ptr = head;
     int deleted_node_data = ptr->data;
-    head                  = ptr->next;
+    head = ptr->next;
     free(ptr);
     return deleted_node_data;
 }
@@ -34,8 +34,9 @@ void print_stack(Node* head_ptr) {
         }
         printf("%d\n", ptr->data);
         ptr = NULL;
-    } else
+    } else {
         return;
+    }
 }
 
 int main(void) {
