@@ -1,8 +1,7 @@
-a.out
-output
+Session.vim
 examples/
-
 **/*.o
 **/obj/
-
 **/bin/
+output
+a.out

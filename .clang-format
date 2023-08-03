@@ -1,11 +1,23 @@
 Language: Cpp
 BasedOnStyle: LLVM
-IndentWidth: 4
+
+AlignAfterOpenBracket: Align
 PointerAlignment: Left
-AlignConsecutiveAssignments: Consecutive
-AlignConsecutiveMacros: AcrossEmptyLines
-AlignEscapedNewlines: Right
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+AlignEscapedNewlines: Left
+
+IndentWidth: 4
 IndentCaseLabels: true
 IndentCaseBlocks: true
 IndentPPDirectives: AfterHash
-AllowShortIfStatementsOnASingleLine: false
+
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortEnumsOnASingleLine: true
+# AllowShortLoopsOnASingleLine: true
+AllowAllArgumentsOnNextLine: true
+AllowShortCaseLabelsOnASingleLine: true
+
+InsertBraces: true
