@@ -3,30 +3,29 @@ CFLAGS=cc -Wall -Wextra -g -Og -std=c17
 
 SRCDIR=src
 OBJDIR=obj
+BINDIR=bin
 
 SRCFILES:=$(wildcard $(SRCDIR)/*.c)
 OBJFILES:=$(SRCFILES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-BIN=bst
+BIN:=$(BINDIR)/bst
 
-ifndef vb
-.SILENT:
-endif
+$(OBJDIR) $(BINDIR):
+	mkdir -p $@
 
-all: $(BIN)
-
-$(BIN): $(OBJFILES)
+$(BIN): $(OBJFILES) | $(BINDIR)
 	$(if $(SRCFILES), $(CC) $(CFLAGS) $^ -o $@, \
 	       	$(error source directory is empty))
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(shell [ ! -d $(@D) ] && mkdir $(@D))
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: clean run
-clean:
-	rm -f $(OBJDIR)/*.o $(BIN)
+.DEFAULT_GOAL := $(BIN)
 
-run:
+.PHONY: clean check
+clean:
+	rm -f $(OBJFILES) $(BIN)
+
+check:
 	$(MAKE) -s $(BIN)
 	valgrind -q -s --leak-check=full ./$(BIN)
 
